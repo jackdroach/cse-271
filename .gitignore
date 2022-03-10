@@ -1,2 +1,10 @@
-
+# Files
 .DS_Store
+
+# Extensions
+*.iml
+
+# Directories
+/.idea
+/out
+/src
