@@ -1,5 +1,8 @@
-import java.util.Objects;
-
+/**
+ * @author Jack Roach
+ * Date: Mar 15, 2022
+ * Class: CSE 271 - E
+ */
 public class Rectangle implements Shape {
 
     private int x;
@@ -23,6 +26,8 @@ public class Rectangle implements Shape {
     }
 
     /**
+     * Gets the Rectangle area.
+     *
      * {@inheritDoc}
      */
     @Override
@@ -31,7 +36,9 @@ public class Rectangle implements Shape {
     }
 
     /**
-     * {@inheritDoc}
+     * Scales the Rectangle measurements.
+     *
+     * @param factor {@inheritDoc}
      */
     @Override
     public void scale(double factor) {

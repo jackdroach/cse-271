@@ -1,14 +1,19 @@
+/**
+ * @author Jack Roach
+ * Date: Mar 15, 2022
+ * Class: CSE 271 - E
+ */
 public interface Shape {
 
     /**
-     * Gets the shape area.
+     * Gets the Shape area.
      *
-     * @return Shape area
+     * @return area
      */
     double getArea();
 
     /**
-     * Scales the shape measurements.
+     * Scales the Shape measurements.
      *
      * @param factor scale factor
      */

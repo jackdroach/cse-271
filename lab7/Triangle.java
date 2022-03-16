@@ -1,15 +1,28 @@
+/**
+ * @author Jack Roach
+ * Date: Mar 15, 2022
+ * Class: CSE 271 - E
+ */
 public class Triangle implements Shape {
 
     private double base;
     private double height;
 
+    /**
+     * Workhorse constructor. Instantiates a new Triangle.
+     *
+     * @param base Triangle base
+     * @param height Triangle height
+     */
     public Triangle(double base, double height) {
         this.base = base;
         this.height = height;
     }
 
     /**
-     * {@inheritDoc}
+     * Gets the Triangle area.
+     *
+     * @return {@inheritDoc}
      */
     @Override
     public double getArea() {
@@ -17,7 +30,9 @@ public class Triangle implements Shape {
     }
 
     /**
-     * {@inheritDoc}
+     * Scales the Triangle measurements.
+     *
+     * @param factor {@inheritDoc}
      */
     @Override
     public void scale(double factor) {
