@@ -6,10 +6,10 @@ public class Circle extends Shape implements Area {
     private double radius;
 
     /**
-     * [] constructor. Instantiates a new Circle.
+     * Workhorse constructor. Instantiates a new Circle.
      *
-     * @param radius the Circle radius
-     * @param name   the Circle name
+     * @param radius Circle radius
+     * @param name Circle name
      */
     public Circle(double radius, String name) {
         super(name);
@@ -36,10 +36,8 @@ public class Circle extends Shape implements Area {
         return "Circle";
     }
 
-    /**
-     * To string string.
-     *
-     * @return the string
+    /**`
+     * {@inheritDoc}
      */
     @Override
     public String toString() {

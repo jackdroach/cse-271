@@ -8,8 +8,8 @@ public class Square extends Shape implements Area {
     /**
      * The [] constructor. Instantiates a new Square.
      *
-     * @param length the Square length
-     * @param name   the Square name
+     * @param length Square length
+     * @param name Square name
      */
     public Square(double length, String name) {
         super(name);
