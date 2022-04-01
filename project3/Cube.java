@@ -9,15 +9,7 @@ public class Cube extends Square implements Volume {
      */
     @Override
     public double getVolume() {
-        return Math.pow(Math.sqrt(getArea()), 3);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName() {
-        return "Cube";
+        return Math.pow(super.getLength(), 3.0);
     }
 
 }

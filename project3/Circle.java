@@ -7,21 +7,18 @@ public class Circle extends Shape implements Area {
         this.radius = radius;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getArea() {
-        return radius * radius * Math.PI;
-    }
-
-    @Override
-    public String getName() {
-        return "Circle";
+        return Math.pow(radius, 2.0) * Math.PI;
     }
 
     @Override
     public String toString() {
         return super.toString();
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -34,6 +31,11 @@ public class Circle extends Shape implements Area {
 
     public void setRadius(double radius) {
         this.radius = radius;
+    }
+
+    @Override
+    public String getName() {
+        return super.name;
     }
 
 }

@@ -9,7 +9,7 @@ public class Sphere extends Circle implements Volume {
      */
     @Override
     public double getVolume() {
-        return super.getArea() * 4;
+        return super.getArea() * super.getRadius() * 4 / 3;
     }
 
     /**

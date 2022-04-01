@@ -19,16 +19,16 @@ public class Cylinder extends Circle implements Volume {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
-        return "Cylinder";
+    public boolean equals(Object o) {
+        return super.equals(o);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
+    public String toString() {
+        return super.toString();
     }
 
     public double getHeight() {

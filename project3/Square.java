@@ -20,7 +20,7 @@ public class Square extends Shape implements Area {
      */
     @Override
     public String getName() {
-        return super.getName();
+        return super.name;
     }
 
     /**
