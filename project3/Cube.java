@@ -1,17 +1,20 @@
 public class Cube extends Square implements Volume {
 
-    private int length;
-    private String name;
-
     public Cube(double length, String name) {
         super(length, name);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getVolume() {
-        return super.getArea() * length;
+        return Math.pow(Math.sqrt(getArea()), 3);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getName() {
         return "Cube";

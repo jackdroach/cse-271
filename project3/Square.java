@@ -1,60 +1,36 @@
-/**
- * The class Square.
- */
 public class Square extends Shape implements Area {
 
     private double length;
 
-    /**
-     * The [] constructor. Instantiates a new Square.
-     *
-     * @param length Square length
-     * @param name Square name
-     */
     public Square(double length, String name) {
         super(name);
         this.length = length;
     }
 
     /**
-     * Gets area.
-     *
-     * @return the area
+     * {@inheritDoc}
      */
     @Override
     public double getArea() {
-        return length * length;
+        return Math.pow(length, 2.0);
     }
 
-
     /**
-     * Gets name.
-     *
-     * @return the name
+     * {@inheritDoc}
      */
     @Override
     public String getName() {
-        return Square.class.getName();
+        return super.getName();
     }
 
-
     /**
-     * To string string.
-     *
-     * @return the string
+     * {@inheritDoc}
      */
     @Override
     public String toString() {
         return super.toString();
     }
 
-
-    /**
-     * Equals boolean.
-     *
-     * @param o the o
-     * @return the boolean
-     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Square)) {
@@ -65,11 +41,12 @@ public class Square extends Shape implements Area {
         return s.length == length && super.equals(o);
     }
 
-    /**
-     * Test.
-     */
-    void test() {
-        Object o = new Object();
+    public double getLength() {
+        return length;
     }
-    
+
+    public void setLength(double length) {
+        this.length = length;
+    }
+
 }

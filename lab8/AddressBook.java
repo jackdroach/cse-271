@@ -2,7 +2,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
@@ -14,6 +13,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/**
+ * @author Jack Roach
+ * Date: Mar 27, 2022
+ * Class: CSE 271 - E
+ */
 public class AddressBook extends JFrame {
 
     private JLabel nameLabel;
@@ -28,10 +32,16 @@ public class AddressBook extends JFrame {
     private JButton saveToFile;
     private JTextArea textArea;
 
+    /**
+     * Default constructor. Instantiates a new AddressBook.
+     */
     public AddressBook() {
         constructDisplay();
     }
 
+    /**
+     * Constructs a new JPanel to add to the AddressBook.
+     */
     private void constructDisplay() {
         JPanel panel = new JPanel();
 
@@ -61,28 +71,34 @@ public class AddressBook extends JFrame {
         readContactsFromFile();
     }
 
+    /**
+     * Constructs JLabels and JTextFields to add to the JPanel.
+     */
     public void constructFields() {
-        nameLabel = new JLabel("Name:    ");
+        nameLabel = new JLabel("Name:     ");
 
         nameField = new JTextField();
-        nameField.setColumns(44);
+        nameField.setColumns(46);
 
         addressLabel = new JLabel("Address:");
 
         addressField = new JTextField();
-        addressField.setColumns(44);
+        addressField.setColumns(46);
 
-        phoneLabel = new JLabel("Phone:   ");
+        phoneLabel = new JLabel("Phone:    ");
 
         phoneField = new JTextField();
-        phoneField.setColumns(44);
+        phoneField.setColumns(46);
 
-        emailLabel = new JLabel("Email:    ");
+        emailLabel = new JLabel("Email:     ");
 
         emailField = new JTextField();
-        emailField.setColumns(44);
+        emailField.setColumns(46);
     }
 
+    /**
+     * Constructs JButtons to add to the JPanel.
+     */
     public void constructButtons() {
         addContact = new JButton("Add Contact");
         addContact.addActionListener(new ActionListener() {
@@ -103,17 +119,35 @@ public class AddressBook extends JFrame {
         });
     }
 
+    /**
+     * Constructs a JTextArea to add to the JPanel.
+     */
+    public void constructTextArea() {
+        textArea = new JTextArea();
+        textArea.setRows(20);
+        textArea.setColumns(52);
+        textArea.setEditable(false);
+    }
+
+    /**
+     * Reads contacts from a file and adds it to the AddressBook.
+     */
     public void readContactsFromFile() {
+        File file;
         Scanner scan = null;
         StringBuilder strBuilder = new StringBuilder();
 
         try {
-            scan = new Scanner(new File("contacts.txt"));
+            file = new File("contacts.txt");
+            file.createNewFile();
+            scan = new Scanner(file);
 
             while (scan.hasNext()) {
                 strBuilder.append(scan.nextLine()).append("\n");
             }
         } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+        } catch (IOException e) {
             System.err.println(e.getMessage());
         } finally {
             try {
@@ -127,20 +161,16 @@ public class AddressBook extends JFrame {
         textArea.setText(strBuilder.toString());
     }
 
-    public void constructTextArea() {
-        textArea = new JTextArea();
-        textArea.setRows(20);
-        textArea.setColumns(50);
-        textArea.setEditable(false);
-    }
-
+    /**
+     * Writes the AddressBook contacts to a file.
+     */
     public void writeContactsToFile() {
         PrintWriter write = null;
 
         try {
-            write = new PrintWriter(new FileWriter("contacts.txt"));
+            write = new PrintWriter("contacts.txt");
 
-            write.append(textArea.getText());
+            write.print(textArea.getText());
         } catch (IOException e) {
             System.err.println(e.getMessage());
         } finally {
@@ -153,6 +183,11 @@ public class AddressBook extends JFrame {
         }
     }
 
+    /**
+     * The main method of the program.
+     *
+     * @param args command-line arguments
+     */
     public static void main(String[] args) {
         AddressBook addressBook = new AddressBook();
 
