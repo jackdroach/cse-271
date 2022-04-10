@@ -23,13 +23,4 @@ public abstract class Shape {
      */
     public abstract String getName();
 
-    /**
-     * Sets the Shape name.
-     *
-     * @param name Shape name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
 }
