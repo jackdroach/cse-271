@@ -1,14 +1,18 @@
 import java.util.Arrays;
 
-public class Recursive {
+public class Recursion {
 
-    public static int power(int x, int n) {
-        return 0;
+    public static int power(int x, int n ) {
+        if (n == 0) {
+            return 1;
+        }
+
+        return x * power(x, n - 1);
     }
 
     public static int sumDigits(int n) {
-        if (n % 10 == 0) {
-            return 0;
+        if (n == 0 || (int) Math.log10(n) == 0) {
+            return n;
         }
 
         return n % 10 + sumDigits(n / 10);
