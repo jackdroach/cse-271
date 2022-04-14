@@ -18,7 +18,7 @@ public class GamePanel extends JPanel {
 	private boolean isNextEnemyBig;
 	private Turret turret;
 	private ArrayList<Enemy> enemyList;
-	private ArrayList<Missle> missleList;
+	private ArrayList<Rectangle> missleList;
 
 	public GamePanel() {
 
@@ -44,8 +44,8 @@ public class GamePanel extends JPanel {
 		// Create temporary rectangles for every enemy and missile on the screen currently       
 		for (int i = 0; i < enemyList.size(); i++) {
 			Rectangle enemyRec = enemyList.get(i).getBounds();
-			for (int j = 0; j < missileList.size(); j++) {
-				Rectangle missileRec = missileList.get(j).getBounds();
+			for (int j = 0; j < missleList.size(); j++) {
+				Rectangle missileRec = missleList.get(j).getBounds();
 				if (missileRec.intersects(enemyRec)) {
 					(enemyList.get(i)).processCollision(enemyList, i);
 					missileList.remove(j);
@@ -77,8 +77,6 @@ public class GamePanel extends JPanel {
 			g.setColor(turretColor);
 			g.drawRect((int) base.getX(), (int) base.getY(),
 				(int) base.getWidth(), (int) base.getHeight());
-			g.drawRect((int) turret.getX(), (int) turret.getY(),
-				(int) turret.getWidth(), (int) turret.getHeight());
 		}
 
 	}
@@ -103,7 +101,11 @@ public class GamePanel extends JPanel {
 		}
 	}
 
-	class EnemyBig extends Enemy {
+	class BigEnemy extends Enemy {
+
+	}
+
+	class SmallEnemy extends Enemy {
 
 	}
 	
