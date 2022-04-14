@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.Timer;
 
 /**
  * The driver class for Project 4. 
@@ -16,21 +15,26 @@ import javax.swing.Timer;
  */
 public class Tester extends JFrame {
 
-	private static final int WINDOW_WIDTH = 500;
-	private static final int WINDOW_HEIGHT = 500;
+	private static final int WINDOW_WIDTH = 960;
+	private static final int WINDOW_HEIGHT = 540;
 	private int score;
 	private int timer;
-	private int misslesFired;
+	private int missilesFired;
 	private JLabel scoreLabel;
 	private JButton fireButton;
 	private GamePanel panel;
-
 
 	/**
 	 * Default constructor to control the game.
 	 */
 	public Tester() {
-		// Setup the initial JFrame elements
+		score = 0;
+		timer = 0;
+		missilesFired = 0;
+		scoreLabel = new JLabel();
+		fireButton = new JButton();
+		panel = new GamePanel();
+
 		centerFrame(this);  
 	}
 	
@@ -47,8 +51,7 @@ public class Tester extends JFrame {
 	 * and check if the game is finished.
 	 */
 	public void gameLoop() {
-		// Game loop
-		while (true) {
+		while(true) {
 			pauseGame(); 
 		}  
 	}

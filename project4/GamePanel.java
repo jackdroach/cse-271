@@ -1,9 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
@@ -15,40 +13,66 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 
 	private int totalScore;
-	private boolean isNextEnemyBig;
+	private boolean isNextBigEnemy;
 	private Turret turret;
 	private ArrayList<Enemy> enemyList;
-	private ArrayList<Rectangle> missleList;
+	private ArrayList<Missile> missileList;
 
 	public GamePanel() {
-
+		totalScore = 0;
+		isNextBigEnemy = false;
+		turret = new Turret();
+		enemyList = new ArrayList<>();
+		missileList = new ArrayList<>();
 	}
 
 	/**
-	 * Paints the enemies and missiles when called and also paints the
-	 * background of the panel White.
+	 * Paints the enemies and missiles when called and also paints
+	 * the background of the panel White.
 	 */
 	@Override
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) { 
 		super.paintComponent(g);
-		g.setColor(Color.white);
-		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, getWidth(), getHeight());
+
+		enemyList.forEach(e -> e.paintComponent(g));
+		missileList.forEach(m -> m.paintComponent(g));
+		turret.paintComponent(g);
+	}
+
+	public void move() {
+		enemyList.forEach(e -> e.move(10, 10));
+		missileList.forEach(m -> m.move(10, 10));
+	}
+
+	public void addEnemy() {
+		if (isNextBigEnemy) {
+			enemyList.add(new BigEnemy());
+		} else {
+			enemyList.add(new SmallEnemy());
+		}
+	}
+
+	public void addMissile() {
+		missileList.add(new Missile());
 	}
 
 	/**
-	 * Method detects the collision of the missile and all the enemies. This is
-	 * done by drawing invisible rectangles around the enemies and missiles, if
-	 * they intersect, then they collide.
+	 * Method detects the collision of the missile and all the enemies. This is done by
+	 * drawing invisible rectangles around the enemies and missiles, if they intersect, then 
+	 * they collide.
 	 */
 	public void detectCollision() {
 		// Create temporary rectangles for every enemy and missile on the screen currently       
 		for (int i = 0; i < enemyList.size(); i++) {
 			Rectangle enemyRec = enemyList.get(i).getBounds();
-			for (int j = 0; j < missleList.size(); j++) {
-				Rectangle missileRec = missleList.get(j).getBounds();
+			for (int j = 0; j < missileList.size(); j++) {
+				Rectangle missileRec = missileList.get(j).getBounds();
 				if (missileRec.intersects(enemyRec)) {
 					(enemyList.get(i)).processCollision(enemyList, i);
-					missileList.remove(j);
+					missileList.remove(j); 
 					if (enemyList.get(i) instanceof BigEnemy) {
 						totalScore += 100;
 					} else {
@@ -57,56 +81,10 @@ public class GamePanel extends JPanel {
 				}
 			}
 		}
-
 	}
 
-	class Turret extends JComponent {
-
-		private Rectangle base;
-		private Rectangle turret;
-		private Color turretColor;
-
-		public Turret() {
-			base = new Rectangle(0, 0, 100, 100);
-			turret = new Rectangle(0, 0, 100, 100);
-			turretColor = Color.BLACK;
-		}
-
-		@Override
-		public void paintComponent(Graphics g) {
-			g.setColor(turretColor);
-			g.drawRect((int) base.getX(), (int) base.getY(),
-				(int) base.getWidth(), (int) base.getHeight());
-		}
-
+	public int getTotalScore() {
+		return totalScore;
 	}
 
-	class Missle extends JComponent {
-
-		@Override
-		protected void printComponent(Graphics g) {
-			super.printComponent(g);
-
-			g.setColor(Color.DARK_GRAY);
-			g.drawRect(0, 0, 100, 150);
-			g.drawOval(0, 0, 100, 100);
-		}
-	}
-
-	class Enemy extends JComponent {
-
-		@Override
-		protected void printComponent(Graphics g) {
-			super.printComponent(g);
-		}
-	}
-
-	class BigEnemy extends Enemy {
-
-	}
-
-	class SmallEnemy extends Enemy {
-
-	}
-	
 }
