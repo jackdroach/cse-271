@@ -1,12 +1,8 @@
-import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 /**
  * The driver class for Project 4. 
@@ -15,8 +11,8 @@ import javax.swing.JOptionPane;
  */
 public class Tester extends JFrame {
 
-	private static final int WINDOW_WIDTH = 960;
-	private static final int WINDOW_HEIGHT = 540;
+	private static final int WINDOW_WIDTH = 900;
+	private static final int WINDOW_HEIGHT = 600;
 	private int score;
 	private int timer;
 	private int missilesFired;
@@ -35,6 +31,12 @@ public class Tester extends JFrame {
 		fireButton = new JButton();
 		panel = new GamePanel();
 
+		add(panel);
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setTitle("Ball Destruction!");
+		setVisible(true);
+
 		centerFrame(this);  
 	}
 	
@@ -52,7 +54,11 @@ public class Tester extends JFrame {
 	 */
 	public void gameLoop() {
 		while(true) {
-			pauseGame(); 
+			pauseGame();
+
+			panel.detectCollision();
+
+			if ()
 		}  
 	}
 
