@@ -1,5 +1,8 @@
+import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -8,6 +11,9 @@ import javax.swing.JLabel;
  * The driver class for Project 4. 
  * 
  * @author Dr. Garrett Goodman
+ * @author Jack Roach
+ * Date: Apr 17, 2022
+ * Class: CSE 271 - E
  */
 public class Tester extends JFrame {
 
@@ -27,17 +33,39 @@ public class Tester extends JFrame {
 		score = 0;
 		timer = 0;
 		missilesFired = 0;
-		scoreLabel = new JLabel();
-		fireButton = new JButton();
+		scoreLabel = new JLabel("Score: 0");
+		fireButton = new JButton("Fire Missile!");
+		fireButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel.addMissile();
+				missilesFired++;
+			}
+		});
 		panel = new GamePanel();
 
+		constructFrame();
+
+		panel.addEnemy();
+		panel.addEnemy();
+	}
+
+	/**
+	 * Constructs the Tester JFrame.
+	 */
+	public void constructFrame() {
+		setLayout(new BorderLayout());
+		add(fireButton, BorderLayout.SOUTH);
+		add(scoreLabel, BorderLayout.NORTH);
 		add(panel);
+
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Ball Destruction!");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setResizable(false);
 		setVisible(true);
 
-		centerFrame(this);  
+		centerFrame(this);
 	}
 	
 	/**
@@ -54,11 +82,26 @@ public class Tester extends JFrame {
 	 */
 	public void gameLoop() {
 		while(true) {
-			pauseGame();
+			if (missilesFired >= 10) {
+				panel.setVisible(false);
+				if (score >= 850) {
+					scoreLabel.setText("You win!");
+				} else {
+					scoreLabel.setText("You lose.");
+				}
+			} else {
+				pauseGame();
+				panel.detectCollision();
+				score = panel.getTotalScore();
+				scoreLabel.setText("Score: " + score);
+				panel.move();
+				repaint();
 
-			panel.detectCollision();
-
-			if ()
+				setTimer();
+				if (timer % 100 == 0) {
+					panel.addEnemy();
+				}
+			}
 		}  
 	}
 
@@ -85,7 +128,7 @@ public class Tester extends JFrame {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Point center = ge.getCenterPoint();
 
-		int xPosition = center.x - width/2, yPosition = center.y - height/2;
+		int xPosition = center.x - width / 2, yPosition = center.y - height / 2;
 		frame.setBounds(xPosition, yPosition, width, height);
 		frame.validate();
 	}

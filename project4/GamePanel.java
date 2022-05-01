@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JPanel;
 
 /**
@@ -9,6 +10,9 @@ import javax.swing.JPanel;
  * turret, and missile. It also keeps track of the 
  * 
  * @author Dr. Garrett Goodman
+ * @author Jack Roach
+ * Date: Apr 17, 2022
+ * Class: CSE 271 - E
  */
 public class GamePanel extends JPanel {
 
@@ -18,6 +22,9 @@ public class GamePanel extends JPanel {
 	private ArrayList<Enemy> enemyList;
 	private ArrayList<Missile> missileList;
 
+	/**
+	 * Default constructor. Instantiates a new GamePanel.
+	 */
 	public GamePanel() {
 		totalScore = 0;
 		isNextBigEnemy = false;
@@ -42,19 +49,30 @@ public class GamePanel extends JPanel {
 		turret.paintComponent(g);
 	}
 
+	/**
+	 * Moves each Enemy in the enemyList and each missile in the missileList.
+	 */
 	public void move() {
-		enemyList.forEach(e -> e.move(10, 10));
-		missileList.forEach(m -> m.move(10, 10));
+		enemyList.forEach(e -> e.move(getWidth(), getHeight()));
+		missileList.forEach(m -> m.move(getWidth(), getHeight(), missileList, missileList.indexOf(m)));
 	}
 
+	/**
+	 * Add an Enemy to the enemyList based on isNextBigEnemy.
+	 */
 	public void addEnemy() {
 		if (isNextBigEnemy) {
 			enemyList.add(new BigEnemy());
+			isNextBigEnemy = false;
 		} else {
 			enemyList.add(new SmallEnemy());
+			isNextBigEnemy = true;
 		}
 	}
 
+	/**
+	 * Add a Missile to the missileList.
+	 */
 	public void addMissile() {
 		missileList.add(new Missile());
 	}
@@ -65,7 +83,6 @@ public class GamePanel extends JPanel {
 	 * they collide.
 	 */
 	public void detectCollision() {
-		// Create temporary rectangles for every enemy and missile on the screen currently       
 		for (int i = 0; i < enemyList.size(); i++) {
 			Rectangle enemyRec = enemyList.get(i).getBounds();
 			for (int j = 0; j < missileList.size(); j++) {
@@ -83,6 +100,11 @@ public class GamePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Gets the GamePanel totalScore.
+	 *
+	 * @return GamePanel totalScore
+	 */
 	public int getTotalScore() {
 		return totalScore;
 	}
