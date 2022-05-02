@@ -14,9 +14,9 @@ import javax.swing.border.TitledBorder;
  */
 public class StudentRecord extends JFrame {
 
+    private Student[] studentArray;
     private JTextField searchField;
     private JTextField displayField;
-    private Student[] studentArray;
     private JButton loadData;
     private JButton sortRecords;
     private JButton findStudent;
