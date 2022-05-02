@@ -19,13 +19,16 @@ import java.util.Scanner;
 public class AddressBook {
 
     private List<Contact> contactList;
+    private Scanner scan;
 
     public AddressBook() {
         contactList = new ArrayList<>();
+        scan = new Scanner(System.in);
 
         load();
         loop();
         save();
+        scan.close();
     }
 
     private void loop() {
@@ -35,12 +38,24 @@ public class AddressBook {
             selection = menu();
 
             switch (selection) {
-                case 1 -> add();
-                case 2 -> remove();
-                case 3 -> save();
-                case 4 -> load();
-                case 5 -> displayAll();
-                case 6 -> search();
+                case 1:
+                    add();
+                    break;
+                case 2:
+                    remove();
+                    break;
+                case 3:
+                    save();
+                    break;
+                case 4:
+                    load();
+                    break;
+                case 5:
+                    displayAll();
+                    break;
+                case 6:
+                    search();
+                    break;
             }
 
             if (selection != 7) {
@@ -50,15 +65,14 @@ public class AddressBook {
     }
 
     private int menu() {
-        Scanner scan = new Scanner(System.in);
         System.out.print("Address Book Operations: \n"
-            + "1) Add \n"
-            + "2) Remove \n"
-            + "3) Save \n"
-            + "4) Load \n"
-            + "5) Display All \n"
-            + "6) Search \n"
-            + "7) Exit \n"
+            + "1) Add\n"
+            + "2) Remove\n"
+            + "3) Save\n"
+            + "4) Load\n"
+            + "5) Display All\n"
+            + "6) Search\n"
+            + "7) Exit\n"
             + "Select an option (number): ");
 
         int selection;
@@ -80,12 +94,10 @@ public class AddressBook {
             System.out.print("Select an option (number): ");
         }
 
-        scan.close();
         return selection;
     }
 
     private void add() {
-        Scanner scan = new Scanner(System.in);
         Contact c = new Contact();
 
         System.out.print("First name: ");
@@ -100,7 +112,7 @@ public class AddressBook {
         for (Contact contact : contactList) {
             if (contact.getPhoneNumber().equals(phoneNumber)) {
                 System.out.println("Contact already exists.");
-                scan.close();
+                
                 return;
             }
         }
@@ -115,22 +127,16 @@ public class AddressBook {
 
         contactList.add(c);
         System.out.println("Contact added.");
-
-        scan.close();
     }
 
     private void remove() {
-        Scanner scan = new Scanner(System.in);
-
         System.out.print("Phone number: ");
         String phoneNumber = scan.next();
 
         for (Contact contact : contactList) {
-            System.out.println(contact.getPhoneNumber());
             if (contact.getPhoneNumber().equals(phoneNumber)) {
                 contactList.remove(contact);
                 System.out.println("Contact removed.");
-                scan.close();
                 return;
             }
         }
@@ -178,12 +184,10 @@ public class AddressBook {
             contactList = (ArrayList<Contact>) ois.readObject();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch(Exception e) {
-            e.printStackTrace();
+        } catch(Exception ignored) {
         } finally {
             try {
                 if (ois != null) {
@@ -206,8 +210,6 @@ public class AddressBook {
     }
 
     private void search() {
-        Scanner scan = new Scanner(System.in);
-
         System.out.println();
         System.out.print("Enter search parameters: ");
         String search = scan.next();
@@ -217,12 +219,9 @@ public class AddressBook {
         for (Contact contact : contactList) {
             if (contact.toString().contains(search)) {
                 System.out.println(contact);
-                scan.close();
                 return;
             }
         }
-
-        scan.close();
     }
 
     public static void main(String[] args) {
