@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author Jack Roach
+ * Date: May 1, 2022
+ * Class: CSE 271 - E
+ */
 public class Student implements Comparable<Student> {
+
     private int id;
     private String firstName;
     private String lastName;
     private int grade;
 
+    /**
+     * Default constructor. Instantiates a new StudentRecord.
+     */
     public Student(int id, String firstName, String lastName, int grade) {
         this.id = id;
         this.firstName = firstName;
@@ -17,11 +26,17 @@ public class Student implements Comparable<Student> {
         this.grade = grade;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int compareTo(Student s) {
         return Integer.compare(grade, s.grade);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Student)) {
@@ -29,9 +44,15 @@ public class Student implements Comparable<Student> {
         }
 
         Student s = (Student) o;
-        return grade == s.grade;
+        return id == s.id;
     }
 
+    /**
+     * Read Students from a file.
+     *
+     * @param filePath File name
+     * @return array of Students
+     */
     public static Student[] readFromFile(String filePath) {
         Scanner scan = null;
         List<Student> list = new ArrayList<>();
@@ -67,6 +88,11 @@ public class Student implements Comparable<Student> {
         return String.format("%d, %s, %s, %d", id, firstName, lastName, grade);
     }
 
+    /**
+     * Sorts an array of Students.
+     *
+     * @param students array of Students
+     */
     public static void sort(Student[] students) {
         if (students == null || students.length < 2) {
             return;
@@ -84,9 +110,16 @@ public class Student implements Comparable<Student> {
         }
     }
 
+    /**
+     * Searches an array of Students.
+     *
+     * @param students array of Students
+     * @param s Student to search for
+     * @return Student index, -1 if not found
+     */
     public static int search(Student[] students, Student s) {
         for (int i = 0; i < students.length; i++) {
-            if (students[i].compareTo(s) == 0) {
+            if (students[i].equals(s)) {
                 return i;
             }
         }

@@ -1,31 +1,26 @@
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+/**
+ * @author Jack Roach
+ * Date: May 1, 2022
+ * Class: CSE 271 - E
+ */
 public class StudentRecord extends JFrame {
 
+    private JTextField searchField;
+    private JTextField displayField;
     private Student[] studentArray;
     private JButton loadData;
     private JButton sortRecords;
-    private JButton findStudents;
-    private JTextField searchField;
-    private JTextField
-
+    private JButton findStudent;
+    private JTextArea textArea;
 
     /**
      * Default constructor. Instantiates a new StudentRecord.
@@ -35,164 +30,109 @@ public class StudentRecord extends JFrame {
     }
 
     /**
-     * Constructs new JPanels to add to the AddressBook.
+     * Constructs the StudentRecord display.
      */
     private void constructDisplay() {
-        constructFields();
-        constructTopPanel();
-
         constructButtons();
-        constructMiddlePanel();
-
+        constructFields();
         constructTextArea();
+        constructTopPanel();
+        constructMiddlePanel();
         constructBottomPanel();
-
-        readContactsFromFile();
     }
 
     /**
-     * Constructs a new JPanel to add to the AddressBook.
+     * Constructs a JPanel for the StudentRecord.
      */
     private void constructTopPanel() {
         JPanel panel = new JPanel();
         getContentPane().add(panel, BorderLayout.PAGE_START);
-        panel.setLayout(new GridLayout(0, 2));
-        panel.setBorder(new TitledBorder("Enter New Contact Information"));
-        panel.add(nameLabel);
-        panel.add(nameField);
-        panel.add(addressLabel);
-        panel.add(addressField);
-        panel.add(phoneLabel);
-        panel.add(phoneField);
-        panel.add(emailLabel);
-        panel.add(emailField);
+        panel.setBorder(new TitledBorder("Control Panel"));
+        panel.add(loadData);
+        panel.add(sortRecords);
+        panel.add(findStudent);
+        panel.add(searchField);
     }
 
     /**
-     * Constructs a new JPanel to add to the AddressBook.
+     * Constructs a JPanel for the StudentRecord.
      */
     private void constructMiddlePanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 25));
-        panel.setBorder(new TitledBorder("Add New Contact or Save to File"));
+        panel.setBorder(new TitledBorder("Individual Student Record"));
         getContentPane().add(panel, BorderLayout.CENTER);
-        panel.add(addContact);
-        panel.add(saveToFile);
+        panel.add(displayField);
     }
 
     /**
-     * Constructs a new JPanel to add to the AddressBook.
+     * Constructs a JPanel for the StudentRecord.
      */
     private void constructBottomPanel() {
         JPanel panel = new JPanel();
-        panel.setBorder(new TitledBorder("Saved Contacts"));
+        panel.setBorder(new TitledBorder("All Student Records"));
         getContentPane().add(panel, BorderLayout.PAGE_END);
         JScrollPane scrollPane = new JScrollPane(textArea);
         panel.add(scrollPane);
     }
 
     /**
-     * Constructs JLabels and JTextFields to add to the JPanel.
-     */
-    private void constructFields() {
-        nameLabel = new JLabel("Name:");
-        nameField = new JTextField();
-
-        addressLabel = new JLabel("Address:");
-        addressField = new JTextField();
-
-        phoneLabel = new JLabel("Phone:");
-        phoneField = new JTextField();
-
-        emailLabel = new JLabel("Email:");
-        emailField = new JTextField();
-    }
-
-    /**
-     * Constructs JButtons to add to the JPanel.
+     * Constructs JButtons
      */
     private void constructButtons() {
-        addContact = new JButton("Add Contact");
-        addContact.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                textArea.append(nameField.getText() + ", " +
-                    addressField.getText() + ", " + phoneField.getText() + ", "
-                    + emailField.getText() + "\n");
-            }
+        loadData = new JButton("Load Data");
+        loadData.addActionListener(e -> {
+            studentArray = Student.readFromFile("MOCK_DATA.csv");
+            displayAllRecords();
         });
 
-        saveToFile = new JButton("Save to File");
-        saveToFile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                writeContactsToFile();
-            }
+        sortRecords = new JButton("Sort Records");
+        sortRecords.addActionListener(e -> {
+            Student.sort(studentArray);
+            displayAllRecords();
+        });
+
+        findStudent = new JButton("Find Student");
+        findStudent.addActionListener(e -> {
+            int index = Student.search(studentArray, new Student(
+                Integer.parseInt(searchField.getText()), "", "", 0));
+
+            displayField.setText(String.format("%s, Index = %d",
+                studentArray[index].toString(), index + 1));
         });
     }
 
     /**
-     * Constructs a JTextArea to add to the JPanel.
+     * Constructs a JTextFields for the StudentRecord.
+     */
+    private void constructFields() {
+        searchField = new JTextField();
+        searchField.setColumns(15);
+
+        displayField = new JTextField();
+        displayField.setColumns(50);
+        displayField.setEditable(false);
+    }
+
+    /**
+     * Constructs a JTextArea for the StudentRecord.
      */
     private void constructTextArea() {
         textArea = new JTextArea();
-        textArea.setRows(17);
-        textArea.setColumns(40);
+        textArea.setRows(31);
+        textArea.setColumns(50);
         textArea.setEditable(false);
     }
 
     /**
-     * Reads contacts from a file and adds it to the AddressBook.
+     * Display an array of Students in the JTextArea.
      */
-    public void readContactsFromFile() {
-        File file;
-        Scanner scan = null;
+    private void displayAllRecords() {
         StringBuilder strBuilder = new StringBuilder();
-
-        try {
-            file = new File("contacts.txt");
-            file.createNewFile();
-            scan = new Scanner(file);
-
-            while (scan.hasNext()) {
-                strBuilder.append(scan.nextLine()).append("\n");
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println(e.getMessage());
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        } finally {
-            try {
-                assert scan != null;
-                scan.close();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
+        for (Student s : studentArray) {
+            strBuilder.append(s.toString()).append("\n");
         }
 
         textArea.setText(strBuilder.toString());
-    }
-
-    /**
-     * Writes the AddressBook contacts to a file.
-     */
-    public void writeContactsToFile() {
-        PrintWriter write = null;
-
-        try {
-            write = new PrintWriter("contacts.txt");
-
-            write.print(textArea.getText());
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        } finally {
-            try {
-                assert write != null;
-                write.close();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
-        }
     }
 
     /**
@@ -203,11 +143,10 @@ public class StudentRecord extends JFrame {
     public static void main(String[] args) {
         StudentRecord studentRecord = new StudentRecord();
 
-        studentRecord.setSize(630, 550);
-        studentRecord.setTitle("Address Book Application");
+        studentRecord.setSize(600, 700);
+        studentRecord.setTitle("Student Searcher and Sorter");
         studentRecord.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         studentRecord.setVisible(true);
     }
-
 
 }
