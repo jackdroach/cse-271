@@ -21,6 +21,9 @@ public class AddressBook {
     private List<Contact> contactList;
     private Scanner scan;
 
+    /**
+     * Default constructor. Instantiates a new AddressBook.
+     */
     public AddressBook() {
         contactList = new ArrayList<>();
         scan = new Scanner(System.in);
@@ -31,6 +34,9 @@ public class AddressBook {
         scan.close();
     }
 
+    /**
+     * Loops the program until the user exits.
+     */
     private void loop() {
         int selection;
 
@@ -64,6 +70,11 @@ public class AddressBook {
         } while (selection != 7);
     }
 
+    /**
+     * Selection menu for the user to pick an operation.
+     *
+     * @return user selection
+     */
     private int menu() {
         System.out.print("Address Book Operations: \n"
             + "1) Add\n"
@@ -97,6 +108,9 @@ public class AddressBook {
         return selection;
     }
 
+    /**
+     * Adds a contact to an ArrayList of Contacts.
+     */
     private void add() {
         Contact c = new Contact();
 
@@ -129,6 +143,9 @@ public class AddressBook {
         System.out.println("Contact added.");
     }
 
+    /**
+     * Removes a contact from an ArrayList of Contacts.
+     */
     private void remove() {
         System.out.print("Phone number: ");
         String phoneNumber = scan.next();
@@ -142,6 +159,9 @@ public class AddressBook {
         }
     }
 
+    /**
+     * Saves an ArrayList of Contacts to a .bin file.
+     */
     private void save() {
         ObjectOutputStream oos = null;
 
@@ -168,6 +188,9 @@ public class AddressBook {
         System.out.println("Saved.");
     }
 
+    /**
+     * Loads an ArrayList of Contacts from a .bin file.
+     */
     private void load() {
         if (!Files.exists(Paths.get("AddressBook.bin"))) {
             try {
@@ -202,6 +225,9 @@ public class AddressBook {
         System.out.println("Loaded.");
     }
 
+    /**
+     * Displays an ArrayList of Contacts.
+     */
     private void displayAll() {
         System.out.println();
         for (Contact contact : contactList) {
@@ -209,6 +235,9 @@ public class AddressBook {
         }
     }
 
+    /**
+     * Searches an ArrayList of Contacts.
+     */
     private void search() {
         System.out.println();
         System.out.print("Enter search parameters: ");
@@ -224,6 +253,11 @@ public class AddressBook {
         }
     }
 
+    /**
+     * The main method of the program.
+     *
+     * @param args command-line arguments
+     */
     public static void main(String[] args) {
         new AddressBook();
     }
